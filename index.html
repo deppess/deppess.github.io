@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>deppes's Portfolio</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="deppes's Portfolio">
+    <meta property="og:url" content="https://example.com/">
+    <!--
+      Replace the following with your own preview image URL or remove the tag
+      entirely once you have your own og:image.
+    -->
+    <!-- <meta property="og:image" content="https://example.com/og-image.png"> -->
+    <meta property="og:description" content="A personal portfolio site showcasing deppes's projects and contact information">
+    <!-- Analytics disabled: remove or replace with your own analytics script if needed -->
+    <!-- <script defer src="https://umami.example.com/script.js" data-website-id="your-umami-id"></script> -->
+  <!-- Use relative paths so CSS and JS load correctly when the site is served locally
+       (e.g. via GitHub Pages or file://). The leading slash in the original build
+       broke styles when loaded from a file scheme. -->
+  <script type="module" crossorigin src="assets/index-j1VeT7AE.js"></script>
+  <link rel="stylesheet" crossorigin href="assets/index-CgyWnekj.css">
+    <!--
+      Custom styles overriding default colours and fonts. This section defines
+      the Ortica typeface (loaded from a local woff2 file) and applies a new
+      palette across the site based on the supplied colour swatch. The
+      original red and green accent classes are replaced with a rich
+      purple hue (#802BB1). Backgrounds and borders are softened with
+      complementary dark and mid‑tones (#2D283E, #4C495D, #564F6F) and the
+      primary text colour is a light grey (#D1D7E0). These overrides are
+      loaded after the compiled CSS so they take precedence.
+    -->
+    <style>
+      /* Embed the Necto Mono typeface (monospace) downloaded from Collletttivo.
+         We load the WOFF2 file locally stored in the assets folder. */
+      @font-face {
+        font-family: 'NectoMono';
+        src: url('assets/NectoMono-Regular.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      /* Override the Absans font-family to use NectoMono as well. This ensures
+         that any Tailwind class referencing Absans will effectively load
+         NectoMono instead of the original typeface. */
+      @font-face {
+        font-family: 'Absans';
+        src: url('assets/NectoMono-Regular.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      /* Set NectoMono as the default typeface across the entire document. The
+         Tailwind default sans-serif stack references the `--font-sans` variable
+         on :root, so we redefine it here. We also set the body font-family
+         explicitly and override Absans by providing the same file for its
+         font-face definition. */
+      :root {
+        --font-sans: 'NectoMono', monospace;
+      }
+      body {
+        font-family: 'NectoMono', monospace;
+        /* New palette: dark grey background from swatch (#57564F) */
+        background-color: #57564F;
+        /* Light text colour (#DDDAD0) */
+        color: #DDDAD0;
+      }
+      h1, h2, #site-title {
+        font-family: 'NectoMono', monospace;
+      }
+
+      /* Accent colour: pale yellow from the swatch (#F8F3CE). Apply this to
+         hover interactions. */
+      .hover\:text-red-700:hover {
+        color: #F8F3CE;
+      }
+      /* Error text uses the accent colour instead of red */
+      .text-red-600 {
+        color: #F8F3CE !important;
+      }
+      /* Buttons previously green become the pale yellow accent with dark text */
+      .bg-green-500 {
+        background-color: #F8F3CE !important;
+        color: #57564F !important;
+      }
+      /* Card and form backgrounds: use the medium grey (#7A7A73) with a slight
+         transparency to let the backdrop show through. */
+      .row, #contact > div, #projects > project-card, .project-card {
+        background-color: rgba(122, 122, 115, 0.9);
+      }
+      /* Soften borders from pure white to the medium grey (#7A7A73) */
+      .border-white {
+        border-color: #7A7A73 !important;
+      }
+      /* Links inside cards and nav adopt the pale yellow accent on hover */
+      a:hover {
+        color: #F8F3CE;
+      }
+
+      /* When the menu is hidden (projects/contact view), disable pointer events
+         for all menu items except the back button to prevent clicks through it */
+      #menu.hide > div {
+        pointer-events: none;
+      }
+      #menu.hide > div:first-child {
+        pointer-events: auto;
+      }
+
+      /* Add a refined hover animation for project cards. The cards gently lift
+         and scale with a subtle shadow for depth. */
+      #projects .row {
+        transition: transform .4s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow .4s, background-color .4s;
+      }
+      #projects .row:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        /* Slightly darken the card on hover */
+        background-color: rgba(87, 86, 79, 0.98);
+      }
+    </style>
+</head>
+
+<body>
+    <!-- TEMPLATES -->
+    <template id="tech-pill-container-template">
+        <div class="tech-pill-container flex flex-row gap-2 mb-2">
+        </div>
+    </template>
+    <template id="tech-pill-template">
+        <div class="tech-pill border border-white text-sm px-1">
+        </div>
+    </template>
+
+    <template id="project-card-template">
+        <div class="row -- w-full min-h-44 p-3 flex flex-col backdrop-blur-md opacity-95">
+            <a class="title -- flex text-3xl md:text-4xl hover:text-red-700 transition-colors" target="_blank"
+                href="https://gatherbun.com/">
+                Gatherbun ↗
+            </a>
+            <tech-pills class="tech-pills" words="null"></tech-pills>
+            <div class="description -- mt-auto self-end text-end">
+            </div>
+        </div>
+    </template>
+
+    <!-- TEMPLATES -->
+    <div id="root" class="absolute overflow-clip overflow-y-auto ">
+        <div id="menu"
+            class="absolute p-4 px-6 text-end top-0 right-0 text-6xl md:text-7xl flex flex-col gap-2 select-none">
+            <div class="cursor-pointer absolute right-6 hover:text-red-700 transition-colors"
+                onclick="navigation.back()">←back
+            </div>
+            <div class="cursor-pointer z-20 relative hover:text-red-700 transition-colors"
+                onclick="navigation.to('projects')">
+                projects
+            </div>
+            <div class="cursor-pointer z-10 relative hover:text-red-700 transition-colors"
+                onclick="navigation.to('contact')">
+                contact
+            </div>
+            <div class="">
+                <a class="hover:text-red-700 transition-colors" target="_blank"
+                    href="https://github.com/deppess">github</a>
+            </div>
+        </div>
+        <!-- <div class="bottom-0 left-0 fixed pointer-events-none m-6 mb-12  text-black max-w-5/12"> -->
+        <!--     <p>Hi there, I'm Fred, I use Linux, Neovim. Mostly do web stuff. Learn fast.</p> -->
+        <!-- </div> -->
+        <div id="contact"
+            class="md:w-1/2 w-[calc(100%-3rem)] max-w-4xl h-[calc(100%-var(--spacing)*24)] overflow-y-auto fixed pb-12 top-24 right-6 flex flex-col gap-3">
+            <div class="text-xl w-full flex flex-col gap-2 backdrop-blur-md opacity-90 p-3">
+                <p class="text-xl">Contact me directly using this form</p>
+                <form id="contact-form" class="flex flex-col gap-2">
+                    <span class="flex flex-row w-full">
+                        <input tabindex="1" class="border border-white p-2 w-full" name="email" type="email" required
+                            placeholder="your@email.pls" />
+                        <button tabindex="3" id="submit-button" type="submit"
+                            class="px-4 cursor-pointer bg-white text-black transition-colors duration-200 bg-green-500">SEND</button>
+                    </span>
+                    <textarea tabindex="2" name="message" required placeholder="How can I help?"
+                        class="text-md p-2 min-h-40 border border-white"></textarea>
+                    <p id="error-text" class="pointer-events-none text-red-600 bg-white text-md p-0.5 px-2" hidden>
+                        It seems there was an error. Try sending me an email instead.
+                    </p>
+                </form>
+                <p>Or just shoot me an email (click to copy – not a mailto link): <br />
+                    <span class="cursor-pointer"
+                        onclick="navigator.clipboard.writeText('deppes.git@pm.me').then(() => {this.innerHTML = '<x class=\'underline\'>deppes.git@pm.me</x> copied!'; setTimeout(()=>{this.innerHTML = '<x class=\'underline\'>deppes.git@pm.me</x>';}, 2000)}).catch(() => this.innerHTML = '<x class=\'underline\'>deppes.git@pm.me</x> oops (couldn\'t copy)!')">
+                        <x class="underline">deppes.git@pm.me</x>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div id="projects"
+            class="md:w-1/2 w-[calc(100%-3rem)] max-w-4xl pb-20 fixed top-24 right-6 flex flex-col gap-3">
+            <!--
+              Replace the following project cards with your own portfolio entries.
+              Each card accepts a title, a link (URL), a comma‑separated list of
+              technologies, and a description. Use the same format for as many
+              projects as you like.
+            -->
+            <project-card title="Project One" link="https://example.com/project1" tech-words="HTML, CSS, JavaScript"
+                onclick="window.open(this.getAttribute('link'), '_blank')">
+                A brief description of your first project goes here. Describe what
+                you built, the problem you solved, and any noteworthy details.
+            </project-card>
+            <project-card title="Project Two" link="https://example.com/project2" tech-words="React, Node.js, API"
+                onclick="window.open(this.getAttribute('link'), '_blank')">
+                A brief description of your second project goes here. Feel free to
+                elaborate on the technologies used and what you learned while
+                building it.
+            </project-card>
+            <project-card title="Project Three" link="https://example.com/project3" tech-words="Python, Data Analysis"
+                onclick="window.open(this.getAttribute('link'), '_blank')">
+                A brief description of your third project goes here. Highlight any
+                interesting challenges or unique features.
+            </project-card>
+        </div>
+        <h1 id="site-title"
+            class="font-[Absans] fixed text-4xl md:p-4 transition-[filter] hover:blur-xs duration-500 cursor-cell -top-8 md:top-0 left-0 origin-bottom-left rotate-90 md:rotate-0">
+            deppes.dev</h1>
+        <div id="typeface-link" class="fixed bottom-4 right-4 text-white text-left">
+            <!-- <h2 class="font-[Absans] italic text-4xl place-self-end mt-auto">fbold.dev</h2> -->
+            <a class="text-lg hover:cursor-pointer hover:underline" href="https://www.collletttivo.it/typefaces/ortica"
+                target="_blank">
+                what's the typeface?
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>
